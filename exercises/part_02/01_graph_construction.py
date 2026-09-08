@@ -83,13 +83,13 @@ def build_structural_graph(chunks: list[dict]) -> StructuralGraph:
 
     # 2. EXERCISE - Connect sections:
     # Iterate over the prepared section links to connect each page to its section.
-    for parent_id, child_id, properties in ...:
+    for parent_id, child_id, properties in section_links:
         add_edge(graph, parent_id, "SECTION", child_id, properties)
 
     # 3. EXERCISE - Connect subsections:
     # Iterate over the prepared subsection links to connect each section to its
     # child subsection.
-    for parent_id, child_id, properties in ...:
+    for parent_id, child_id, properties in subsection_links:
         add_edge(graph, parent_id, "SUBSECTION", child_id, properties)
 
     # 4. Connect consecutive chunks that belong to the same section.
@@ -132,40 +132,39 @@ def review_graph_relationships(
         model=get_llm_model(),
         output_type=NativeOutput(RelationshipReview, strict=True),
         instructions=(
-            "Every graph node represents exactly one webpage chunk. "
-            "Review both incorrect existing relationships and important missing "
-            "relationships. Do not assume that equal Markdown heading levels mean "
-            "that chunks are unrelated. Website extraction often flattens pages that "
-            "are semantically hierarchical. "
-            "Work systematically: first inspect every node that acts as an overview, "
-            "hub, index, category, list, menu, or collection. Then identify detail "
-            "nodes that elaborate the items, entities, services, locations, people, "
-            "products, or topics introduced by that hub. Add a directed SUBSECTION "
-            "relationship from the hub chunk to each matching detail chunk, even when "
-            "both chunks have the same heading level or appear far apart. Use SECTION "
-            "for broader landing-page-to-major-section links. Use NEXT_PART only for "
-            "consecutive chunks belonging to the exact same section. "
-            "Treat explicit hyperlinks, navigation labels, repeated entity names, "
-            "overview-to-detail wording, and clear category membership as evidence. "
-            "Do not add links based only on weak topical similarity. Review all nodes "
-            "before returning, so every clear hub-to-detail flow is represented. "
-            "Never create, remove, rename, or modify nodes. Every source and target "
-            "must be an existing node ID. Make only corrections supported by concrete "
-            "evidence and assign an honest confidence score. "
-            "Use SECTION for section-level structural links, SUBSECTION for "
-            "subsection-level structural links, and NEXT_PART for consecutive "
-            "parts of the same section. Do not create any other relationship type. "
-            "Return a result matching the required output schema. Inspect every "
-            "overview-to-detail relationship "
-            "before deciding that no correction is needed. Return "
-            "an empty corrections list only when the existing relationships are "
-            "already correct and complete."
+            """Every graph node represents exactly one webpage chunk.
+            Review both incorrect existing relationships and important missing
+            relationships. Do not assume that equal Markdown heading levels mean
+            that chunks are unrelated. Website extraction often flattens pages that
+            are semantically hierarchical.
+            Work systematically: first inspect every node that acts as an overview,
+            hub, index, category, list, menu, or collection. Then identify detail
+            nodes that elaborate the items, entities, services, locations, people,
+            products, or topics introduced by that hub. Add a directed SUBSECTION
+            relationship from the hub chunk to each matching detail chunk, even when
+            both chunks have the same heading level or appear far apart. Use SECTION
+            for broader landing-page-to-major-section links. Use NEXT_PART only for
+            consecutive chunks belonging to the exact same section.
+            Treat explicit hyperlinks, navigation labels, repeated entity names,
+            overview-to-detail wording, and clear category membership as evidence.
+            Do not add links based only on weak topical similarity. Review all nodes
+            before returning, so every clear hub-to-detail flow is represented.
+            Never create, remove, rename, or modify nodes. Every source and target
+            must be an existing node ID. Make only corrections supported by concrete
+            evidence and assign an honest confidence score.
+            Use SECTION for section-level structural links, SUBSECTION for
+            subsection-level structural links, and NEXT_PART for consecutive
+            parts of the same section. Do not create any other relationship type.
+            Return a result matching the required output schema. Inspect every
+            overview-to-detail relationship before deciding that no correction is
+            needed. Return an empty corrections list only when the existing
+            relationships are already correct and complete."""
         ),
         # EXERCISE - Configure deterministic review:
         # Choose a temperature that produces stable, repeatable corrections.
         model_settings=ModelSettings(
             thinking="minimal",
-            temperature=...,
+            temperature=0,
         ),
         output_retries=2,
     )
@@ -179,6 +178,12 @@ def review_graph_relationships(
 structural_graph, relationship_corrections = review_graph_relationships(
     structural_graph
 )
+
+# ERTI
+from pathlib import Path
+import pickle
+s = Path()
+
 
 console.print("Completed the LLM relationship review.", style=INFO_STYLE)
 print_result(format_relationship_corrections(relationship_corrections))

@@ -343,8 +343,8 @@
       "relation": "SUBSECTION",
       "target": "chunk:5",
       "properties": {
-        "review_evidence": "Tailored experiences for every occasion explicitly lists Catering & Dining, and chunk:5 is the corresponding detail section.",
-        "review_confidence_percent": 86
+        "review_evidence": "Chunk:3 explicitly lists 'Catering & Dining' as a tailored experience category, and chunk:5 is the corresponding detail section.",
+        "review_confidence_percent": 92
       }
     },
     {
@@ -352,8 +352,8 @@
       "relation": "SUBSECTION",
       "target": "chunk:7",
       "properties": {
-        "review_evidence": "Tailored experiences for every occasion explicitly lists Activities & Entertainment, and chunk:7 is the corresponding detail section.",
-        "review_confidence_percent": 86
+        "review_evidence": "Chunk:3 explicitly lists 'Activities & Entertainment' as a tailored experience category, and chunk:7 is the corresponding detail section.",
+        "review_confidence_percent": 92
       }
     },
     {
@@ -361,8 +361,8 @@
       "relation": "SUBSECTION",
       "target": "chunk:8",
       "properties": {
-        "review_evidence": "Tailored experiences for every occasion explicitly lists Venue & Logistics, and chunk:8 is the corresponding Our Venues detail section.",
-        "review_confidence_percent": 86
+        "review_evidence": "Chunk:3 explicitly lists 'Venue & Logistics' as a tailored experience category, and chunk:8 is the corresponding venue detail hub.",
+        "review_confidence_percent": 92
       }
     },
     {
@@ -370,8 +370,8 @@
       "relation": "SUBSECTION",
       "target": "chunk:12",
       "properties": {
-        "review_evidence": "Our Venues explicitly introduces Party Tree Hall and Grounds, and chunk:12 is the corresponding venue detail page.",
-        "review_confidence_percent": 90
+        "review_evidence": "Chunk:8 introduces 'Party Tree Hall and Grounds' as one of the two curated venues, and chunk:12 is the corresponding detail page.",
+        "review_confidence_percent": 95
       }
     },
     {
@@ -379,8 +379,8 @@
       "relation": "SUBSECTION",
       "target": "chunk:13",
       "properties": {
-        "review_evidence": "Our Venues explicitly introduces The White Tower Upper Gallery, and chunk:13 is the corresponding venue detail page.",
-        "review_confidence_percent": 90
+        "review_evidence": "Chunk:8 introduces 'The White Tower Upper Gallery' as one of the two curated venues, and chunk:13 is the corresponding detail page.",
+        "review_confidence_percent": 95
       }
     }
   ]
