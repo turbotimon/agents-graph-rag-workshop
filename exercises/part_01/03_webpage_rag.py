@@ -71,8 +71,8 @@ print_step("STEP 2 - Split Markdown into overlapping chunks")
 # EXERCISE - Configure chunking:
 # Choose the maximum chunk size and the number of characters shared by
 # consecutive chunks. The overlap must be smaller than the chunk size.
-CHUNK_SIZE = ...
-CHUNK_OVERLAP = ...
+CHUNK_SIZE = DEFAULT_CHUNK_SIZE
+CHUNK_OVERLAP = DEFAULT_CHUNK_OVERLAP
 
 
 def build_chunks(text: str) -> list[str]:
@@ -80,7 +80,7 @@ def build_chunks(text: str) -> list[str]:
 
     # EXERCISE - Split by Markdown headings:
     # Use the heading-aware splitter so each section retains its heading path.
-    header_splitter = ...(
+    header_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=[
             ("#", "Header 1"),
             ("##", "Header 2"),
@@ -92,7 +92,7 @@ def build_chunks(text: str) -> list[str]:
 
     # EXERCISE - Split large sections recursively:
     # Use the configured size and overlap, and record each chunk's start index.
-    text_splitter = ...(
+    text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
         add_start_index=True,
@@ -142,7 +142,7 @@ def create_vector_collection(chunks: list[str]) -> chromadb.Collection:
 
 # EXERCISE - Build the vector collection:
 # Pass the webpage chunks to the function defined above.
-collection = create_vector_collection(...)
+collection = create_vector_collection(webpage_chunks)
 
 console.print(
     f"Stored chunks in ChromaDB collection '{COLLECTION_NAME}', "
@@ -158,7 +158,7 @@ print_step("STEP 4 - Retrieve context for a question")
 
 # EXERCISE - Configure retrieval:
 # Choose the maximum number of relevant chunks returned for each question.
-TOP_K = ...
+TOP_K = 5
 
 
 def retrieve_context(
@@ -180,7 +180,7 @@ def retrieve_context(
     # Use the function argument to control the number of ChromaDB results.
     results = collection.query(
         query_texts=[question],
-        n_results=...,
+        n_results=TOP_K,
         include=["documents"],
     )
 

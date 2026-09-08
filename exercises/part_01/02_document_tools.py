@@ -59,7 +59,7 @@ start = time.time()
 # The PDF is not directly useful for the model,
 # so we first extract its text content into a normal Python string.
 # Complete this line with pdfminer's extract_text function.
-doc_pdfminer = ...(str(pdf_path))
+doc_pdfminer = extract_text(str(pdf_path))
 
 end = time.time()
 
@@ -83,7 +83,7 @@ image_path = MY_DOCUMENTS / "Fondue_Recipe.png"
 # EXERCISE - OCR engine:
 # Images also need to be converted to text before the model can use them.
 # Create a quiet RapidOCR engine, then the next line will run it on the image file.
-engine = ...(params={"Global.log_level": "error"})
+engine = RapidOCR(params={"Global.log_level": "error"})
 
 result = engine(str(image_path))
 doc_ocr = "\n".join(result.txts or [])
@@ -98,7 +98,7 @@ print_step("Step 4 - Extract Webpage to Markdown")
 # EXERCISE - Webpage extraction:
 # Use extract_webpage_to_markdown to fetch the webpage, convert its content to
 # Markdown, and save it at WEBPAGE_MARKDOWN_PATH.
-webpage_markdown = ...(
+webpage_markdown = extract_webpage_to_markdown(
     url=WEBPAGE_URL,
     output_path=WEBPAGE_MARKDOWN_PATH,
 )
