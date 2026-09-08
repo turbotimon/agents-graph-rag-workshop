@@ -21,8 +21,18 @@ agent = Agent(
 # Define a function that returns the current date and time as a string.
 # Decorate it with @agent.tool_plain so Pydantic AI can call it as a tool.
 # Tip: datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-...
+@agent.tool_plain
+def get_current_date() -> str:
+    """Get the current date and time.
 
+    Returns:
+        A string representation of the current date and time.
+    """
+    console.print(
+        "Agent is using the tool to get the current date and time.",
+        style=INFO_STYLE,
+    )
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 if __name__ == "__main__":
     print_step("Simple Tool Call Agent")

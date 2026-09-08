@@ -92,6 +92,16 @@ llm = OpenAILLM(
     model_params={"temperature": 0.0},
 )
 
+llm_hub = OpenAILLM(
+    model_name="Qwen3.8-27B", # "gemma-3-1b-it",
+    base_url="https://api.llmhub.infs.ai/v1",
+    api_key="sk-lh-10c5b28b3f5ede08e23cb4967b4d2e3b87bf7888ebfef70660fd738954858261", # ch-open26
+    model_params={
+        "temperature": 0.0,
+        "response_format": {"type": "json_object"},
+    },
+)
+
 # Here we use Neo4j GraphRAG's imported Text2CypherRetriever, which translates a
 # natural-language question into Cypher using the schema and examples, executes
 # the query in Neo4j, and returns the resulting records as context.

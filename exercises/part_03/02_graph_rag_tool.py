@@ -35,14 +35,13 @@ agent = Agent(
         "Graph-RAG tool for website questions. Answer only from its retrieved "
         "chunks and graph neighbors. Treat Name and Section path as authoritative "
         "metadata when identifying venues, sections, pages, or other entities."
+        "If you have no information, say 'I do not have this information.'"
     ),
     model_settings=ModelSettings(thinking="minimal", output_retries=3),
 )
 
 # EXERCISE: Register this function as an agent tool.
-...
-
-
+@agent.tool_plain
 def search_wayfarer_webpage_graph_rag(question: str) -> str:
     """Retrieve webpage chunks and all their one-hop structural neighbors."""
     return search_structural_graph_rag_context(
