@@ -158,7 +158,7 @@ print_step("STEP 4 - Retrieve context for a question")
 
 # EXERCISE - Configure retrieval:
 # Choose the maximum number of relevant chunks returned for each question.
-TOP_K = 5
+TOP_K = DEFAULT_NB_RETRIEVED_CHUNKS
 
 
 def retrieve_context(
@@ -180,16 +180,16 @@ def retrieve_context(
     # Use the function argument to control the number of ChromaDB results.
     results = collection.query(
         query_texts=[question],
-        n_results=TOP_K,
+        n_results=top_k,
         include=["documents"],
     )
 
-    retrieved_chunks = results.get("documents", [[]])[0]
+    retrieved_chunks = results.get("documents", [[]])
 
     if not retrieved_chunks:
         return "No relevant webpage chunks were found."
 
-    return "\n\n------------\n\n".join(retrieved_chunks)
+    return "\n\n------------\n\n".join(retrieved_chunks[0])
 
 
 retrieved_context = retrieve_context(
@@ -238,8 +238,8 @@ def answer_with_context(question: str, context: str) -> str:
 # EXERCISE - Generate a grounded answer:
 # Pass the original user question and the context retrieved from ChromaDB.
 answer = answer_with_context(
-    question=...,
-    context=...,
+    question=USER_QUESTION,
+    context=retrieved_context,
 )
 
 console.print("Final answer:", style=INFO_STYLE)
