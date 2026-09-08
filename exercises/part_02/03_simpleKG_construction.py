@@ -109,10 +109,21 @@ llm = OpenAILLM(
     },
 )
 
+# ERTI: Use LLMHub
+llm_hub = OpenAILLM(
+    model_name="Qwen3.8-27B", # "gemma-3-1b-it",
+    base_url="https://api.llmhub.infs.ai/v1",
+    api_key="sk-lh-10c5b28b3f5ede08e23cb4967b4d2e3b87bf7888ebfef70660fd738954858261", # ch-open26
+    model_params={
+        "temperature": 0.0,
+        "response_format": {"type": "json_object"},
+    },
+)
+
 # EXERCISE - Configure the semantic knowledge-graph pipeline:
 # Instantiate SimpleKGPipeline with the LLM, Neo4j driver, local embedder, and
 # semantic schema. Entity resolution merges references to the same entity.
-pipeline = ...(
+pipeline = SimpleKGPipeline(
     llm=llm,
     driver=driver,
     embedder=ChromaDefaultEmbedder(),
@@ -144,7 +155,7 @@ print_step("STEP 4 - Build the semantic knowledge graph")
 # script. The driver is always closed, even if graph construction fails.
 try:
     pipeline_result = asyncio.run(
-        pipeline.run_async(text=...)
+        pipeline.run_async(text=webpage_markdown)
     )
 finally:
     driver.close()

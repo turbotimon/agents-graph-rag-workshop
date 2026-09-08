@@ -70,7 +70,7 @@ vector_database = chromadb.PersistentClient(path=str(VECTORSTORES_DIR)).get_coll
 # EXERCISE - Run vector retrieval:
 # Use the ChromaDB collection's query method to retrieve the TOP_K chunks most
 # semantically similar to the user question.
-results = ...(
+results = vector_database.query(
     query_texts=[USER_QUERY],
     n_results=TOP_K,
     include=["documents"],
@@ -111,7 +111,7 @@ def get_neighbor_node_ids(
 
 # EXERCISE - Find the first-hop neighbors:
 # Pass the structural graph and the node IDs returned by vector retrieval.
-first_hop = get_neighbor_node_ids(..., ...)
+first_hop = get_neighbor_node_ids(structural_graph, retrieved_node_id_set)
 
 # To retrieve up to two hops, uncomment these lines and pass
 # two_hop_neighbors to format_neighbor_graph_context below.

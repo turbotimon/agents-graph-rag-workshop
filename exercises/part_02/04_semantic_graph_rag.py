@@ -107,7 +107,7 @@ retriever = Text2CypherRetriever(
 # Here we use Neo4j GraphRAG's imported GraphRAG class, which asks the retriever
 # for relevant Neo4j records and passes that context to the LLM to generate a
 # grounded answer using the instructions below.
-graph_rag = ...(
+graph_rag = GraphRAG(
     retriever=retriever,
     llm=llm,
     prompt_template=RagTemplate(
